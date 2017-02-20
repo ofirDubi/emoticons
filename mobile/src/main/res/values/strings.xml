@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Emoticons</string>
+    <string name="feature">Feature</string>
+    <string name="selected_feature">Selected Feature</string>
+    <string name="action_settings">settings</string>
+    <string name="but1">but1</string>
+    <string name="but2a">but2a</string>
+    <string name="but2b">but2b</string>
+    <string name="but2c">but2c</string>
+    <string name="but3">but3</string>
+    <string name="seek_instr">seekinstr</string>
+    <string name="but4">but4</string>
+    <string name="but5">but5</string>
+    <string name="but6">but6</string>
+    <string name="app_about">about</string>
+    <string name="rgularFeature">Regular Feature</string>
+    <string name="rgularFeatureThresholds">Regular Feature Thresholds:</string>
+    <string name="importantFeatureThresholds">Important Feature Thresholds:</string>
+</resources>

@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements
 
         getSensorData = (GetSensorData) new GetSensorData(this);
 
-        getSensorData.run();
+       // getSensorData.run();
         getSensorData.setUpdateListener(new GetSensorData.OnUpdateListener() {
             @Override
             public void onUpdate(final GetSensorData.UIObject uiObject) {
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements
                 .build();
 
         final EditText editTextSensorName = (EditText) findViewById(R.id.editTextSensorName);
-        editTextSensorName.setText(sharedPreferences.getString("sensor", "0006664e5c10"));
+        editTextSensorName.setText(sharedPreferences.getString("sensor", "00A3B4816862"));
         editor.putString("sensor", editTextSensorName.getText().toString());
         editor.commit();
 

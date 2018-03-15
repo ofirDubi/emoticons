@@ -69,23 +69,36 @@ public class GetSensorData extends AppCompatActivity {
     }
 
     public void run() {
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String deviceName = sharedPreferences.getString("sensor", "0006664e5c10");
+        //change the device name here
+        String deviceName = sharedPreferences.getString("sensor", "00A3B4816862");
+
+        String url = "ws://api.neurosteer.com:8080/v1/features/"+ deviceName + "/pull";
+        Log.d("Debug", "* Openning connection. URL: " + url);
+
         Request request = new Request.Builder()
-                .url("ws://cloud.neurosteer.com:8080/v1/features/"+ deviceName + "/pull")
+                .url(url)
                 .build();
         call = WebSocketCall.create(new OkHttpClient(), request);
+        Log.d("Debug", "****received message*****");
         call.enqueue(new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
+                Log.d("Debug", "* Connection opened");
+
             }
 
             @Override
             public void onFailure(IOException e, Response response) {
+                Log.d("Error", "* Connection failed to open. Exception: " + e.getMessage());
+
             }
 
             @Override
             public void onMessage(ResponseBody responseBody) throws IOException {
+
+
                 JSONObject jsonObject = null;
                 JSONObject featuresJsonObject = null;
                 float backgroundTrackVolume = 0;
@@ -98,6 +111,7 @@ public class GetSensorData extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Log.d("Debug", "* Message received. responseBody - " + jsonObject.toString());
 
                 try {
                     if ((((JSONObject) jsonObject.get("features")).get("q0")).getClass().getName().equals("java.lang.Double")) { // or other feature
@@ -199,8 +213,8 @@ public class GetSensorData extends AppCompatActivity {
 
         double t1h1 = -0.3;
         double t2h1 = 0.6;
-        double t1h2 = -0.5;
-        double t2h2 = 0.5;
+   //     double t1h2 = -0.5;
+    //    double t2h2 = -0.8;
 
         // relative features values
         re1 = Math.abs(e1-t1e1)/((Math.abs(t1e1)+Math.abs(t2e1)));
@@ -212,20 +226,29 @@ public class GetSensorData extends AppCompatActivity {
         rc3 = Math.abs(c3-t1c3)/((Math.abs(t1c3)+Math.abs(t2c3)));
 
         rh1 = Math.abs(h1-t1h1)/((Math.abs(t1h1)+Math.abs(t2h1)));
-        rh2 = Math.abs(h2-t1h2)/((Math.abs(t1h2)+Math.abs(t2h2)));
+     //   rh2 = Math.abs(h2-t1h2)/((Math.abs(t1h2)+Math.abs(t2h2)));
 
         double biggestE = Math.max(re1,Math.max(re2,re3));
-        double biggestC = Math.max(rc1,Math.max(rc2,rc3));
-        double biggestH = Math.max(rh2,rh2);
-        double biggestValue = Math.max(biggestC,Math.max(biggestE,biggestH));
+       // double biggestE = re2;
 
+        double biggestC = Math.max(rc1,Math.max(rc2,rc3));
+        //double biggestC = rc1;
+      //  double biggestH = Math.max(rh2,rh1);
+        double biggestH = rh1;
+
+        double biggestValue = Math.max(biggestC,Math.max(biggestE,biggestH));
+        Log.d("Debug", "biggestH : " + biggestH + ", biggestC : " + biggestC + ", biggestE: " + biggestE);
         if (biggestE == biggestValue) {
+            Log.d("Debug", "feeling emotional");
             return "emotional";
         }
         if(biggestH == biggestValue){
+            Log.d("Debug", "feeling happy");
             return "happy";
+
         }
         if(biggestC == biggestValue){
+            Log.d("Debug", "feeling concentration");
             return "concentration";
         }
 

@@ -38,7 +38,7 @@ public class MainFragment extends Fragment {
         editor = sharedPreferences.edit();
         final EditText editTextSensorName = (EditText) view.findViewById(R.id.editTextSensorName);
 
-        editTextSensorName.setText(sharedPreferences.getString("sensor", "0006664e5c10"));
+        editTextSensorName.setText(sharedPreferences.getString("sensor", "00A3B4816862"));
         editor.putString("sensor", editTextSensorName.getText().toString());
         editor.commit();
        return view;
